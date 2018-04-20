@@ -46,6 +46,21 @@ Element Element::operator+(Element b)
 	return result;
 }
 
+Element Element::operator-(Element b)
+{
+	Element result;
+	result.setSize(b.getSize());
+	result.allocateData();
+	double *temp = new double[size];
+	double *bData = b.getData();
+	for (int i = 0; i < size; i++)
+	{
+		temp[i] = Data[i] - bData[i];
+	}
+	result.setData(temp);
+	return result;
+}
+
 Element Element::operator/(double num)
 {
 	Element result;
@@ -59,6 +74,19 @@ Element Element::operator/(double num)
 	result.setData(temp);
 	return result;
 }
+Element Element::operator*(double num)
+{
+	Element result;
+	result.setSize(size);
+	result.allocateData();
+	double *temp = new double[size];
+	for (int i = 0; i < size; i++)
+	{
+		temp[i] = Data[i] * num;
+	}
+	result.setData(temp);
+	return result;
+}
 
 void Element::printElement()
 {
@@ -68,14 +96,20 @@ void Element::printElement()
 		std::cout << Data[j] << "; ";
 	}
 	std::cout << "); Percent: " << roulettePercent * 100.0 << " Fitness value: " << fitnessFunction() << std::endl;
+	std::cout << "Presence in tournament:"<< inTournament << std::endl;
+
 
 }
-
+void Element::setTournamentStatus(bool flag)
+{
+	inTournament = flag;
+}
 void Element::swapElements(Element b)
 {
 	Element temp;
 	temp.setSize(size);
 	temp.setRoulettePercent(roulettePercent);
+	temp.setTournamentStatus(inTournament);
 	temp.allocateData();
 	double *bData = b.getData();
 	double *tempData = temp.getData();
@@ -85,6 +119,10 @@ void Element::swapElements(Element b)
 		Data[i] = bData[i];
 		bData[i] = tempData[i];
 	}
+	roulettePercent = b.getRoulettePercent();
+	inTournament = b.getTournamentStatus();
+	b.setRoulettePercent(temp.getRoulettePercent());
+	b.setTournamentStatus(temp.getTournamentStatus());
 	b.setData(bData);
 	delete tempData;
 }
@@ -96,6 +134,6 @@ double Element::checkSubgrad()
 	resY = 2.0 * Data[1] + 1.0;
 
 	res = sqrt(resX * resX + resY * resY);
-	//std::cout << "SUBGRADIENT" << res << std::endl;
+	std::cout << "SUBGRADIENT" << res << std::endl;
 	return res;
 }

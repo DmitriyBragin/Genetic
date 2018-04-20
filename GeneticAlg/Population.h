@@ -8,7 +8,7 @@ class Population
 protected:
 	Element * MainPopulation;
 private:
-	double sizePopulation;
+	int sizePopulation;
 	double sizeExpandedPopulation;
 	double mutationCoeff;
 	double probabilityCrossinogver;
@@ -27,6 +27,7 @@ public:
 	int *selection();
 	void life();
 	void printFitness();
+	void shufflePopulation();
 	void printExpandedPopulation();
 	void printOptimum();
 
@@ -35,7 +36,6 @@ public:
 	int getSizePopulation() { return sizePopulation; }
 	int getSizeExpandedPopulation() { return sizeExpandedPopulation; }
 	int getspaceSize() { return spaceSize; }
-
 	/* Заполнение приватных полей класса */
 	void pushElement(Element a, int index);
 

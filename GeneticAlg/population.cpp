@@ -2,17 +2,21 @@
 #include "Roulette.h"
 #include "Element.h"
 #include "Crossover.h"
+#include "Tournament.h"
 #include <iostream>
+
 #define NAN 100.0
 
 void Population::allocations()
 {
 	sizeExpandedPopulation = sizePopulation * 1.5; /* THIS COEFF IS AIDS */
 	MainPopulation = new Element[sizeExpandedPopulation]; /* CAREFUL HERE */
+
 	for (int i = 0; i < sizeExpandedPopulation; i++)
 	{
 		MainPopulation[i].setSize(spaceSize);
 		MainPopulation[i].setRoulettePercent(0.0);
+		MainPopulation[i].setTournamentStatus(true);
 		MainPopulation[i].allocateData();
 		double *tempArray = new double[spaceSize];
 		for (int j = 0; j < spaceSize; j++)
@@ -28,15 +32,28 @@ void Population::allocations()
 int* Population::selection()
 {
 	int *parent = new int[spaceSize];
+	
+	/* Селекция на основе рулетки с защитой от клонирования */
+	//Roulette R(*this);
+	//parent[0] = R.spinRoulette();
+	//parent[1] = R.spinRoulette();
+	//while ((parent[0] == parent[1]))
+//	{
+	//	parent[1] = R.spinRoulette();
+//	}
 
-	/* Селекция на основе рулетки */
-	Roulette R(*this);
-	parent[0] = R.spinRoulette();
-	parent[1] = R.spinRoulette();
-	while ((parent[0] == parent[1]))
-	{
-		parent[1] = R.spinRoulette();
-	}
+	/* Случайная селекция */
+	//parent[0] = rand() % sizePopulation;
+	//parent[1] = rand() % sizePopulation;
+	//while ((parent[0] == parent[1]))
+//	{
+//		parent[1] = rand() % sizePopulation;
+//	}
+
+	/* Турнирная селекция */
+	Tournament T(*this);
+	parent = T.determineWinner();
+	//printPopulation();
 	return parent;
 }
 
@@ -52,7 +69,6 @@ int count = 0;
 	{
 		/* Выбор родителей */
 		int* parents = selection();
-
 		/* Рекомбинация */
 		Element Mother = MainPopulation[parents[0]];
 		Element Father = MainPopulation[parents[1]];
@@ -129,6 +145,7 @@ void Population::pushElement(Element a, int index)
 	MainPopulation[index].setData(a.getData());
 	MainPopulation[index].setSize(a.getSize());
 	MainPopulation[index].setRoulettePercent(a.getRoulettePercent());
+	MainPopulation[index].setTournamentStatus(a.getTournamentStatus());
 }
 
 int Population::mutationPopulation()
@@ -141,7 +158,7 @@ int Population::mutationPopulation()
 			double *coords = new double[spaceSize];
 			for (int j = 0; j < MainPopulation[i].getSize(); j++)
 			{
-				coords[j] = (double)(rand()) / RAND_MAX * 100.0 - 50;
+				coords[j] = (double)(rand()) / RAND_MAX * 100.0 - 50.0;
 				MainPopulation[i].setData(coords);
 			}
 			mutations++;
@@ -164,6 +181,14 @@ void Population::eliminationPopulation()
 	}
 }
 
+void Population::shufflePopulation()
+{
+	for (int i = 0; i < sizePopulation; i++)
+	{
+		MainPopulation[rand() % sizePopulation].swapElements(MainPopulation[rand() % sizePopulation]);
+	}
+}
+
 void Population::life()
 {
 	allocations();
@@ -181,7 +206,8 @@ void Population::life()
 		mutationPopulation();
 		sortPopulation();
 		eliminationPopulation();
+		printPopulation();
 		lifeTime++;
-	} while (newRes > 0.00001);
+	} while (newRes > 0.0001);
 	printOptimum();
 }

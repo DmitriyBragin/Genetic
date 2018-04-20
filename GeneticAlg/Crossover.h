@@ -11,9 +11,12 @@ private:
 	Element Father;
 public:
 	Crossover(Element m, Element f) : Mother(m), Father(f) {}
-	Crossover();
+
+	/* Дискретная рекомбинация (GAfinal, 18 страница */
+	Element linearRecombination();
+	Element intermediateRecombination();
+
+
 	Element recombination();
-	void choosingParents();
-	Element randomCrossover(); //TODO
 };
 #endif
