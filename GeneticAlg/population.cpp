@@ -34,7 +34,6 @@ int* Population::selection()
 {
 	int *parent = new int[spaceSize];
 	Selection S(*this);
-
 	/* Селекция на основе рулетки с защитой от клонирования */
 	//parent = S.rouletteSelection(); // Работает и на 40
 	/* Турнирная селекция с защитой от клонирования */
@@ -42,12 +41,9 @@ int* Population::selection()
 	/* Случайная селекция */
 	//parent = S.panmixedSelection(); // Со 100 сошелся
 	/* Инбридинг */
-	parent = S.inbreedSelection(); // Не работает на 100, сошелся на 1000
+	//parent = S.inbreedSelection(); // Не работает на 100, сошелся на 1000
 	/* Аутбридинг */
-	//parent = S.outbreedSelection();
-
-
-
+	parent = S.outbreedSelection();
 	return parent;
 }
 

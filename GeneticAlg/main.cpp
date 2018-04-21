@@ -5,7 +5,7 @@ using namespace std;
 int main(void)
 {
 	/* Предварительные приготовления */
-	Population Pop(1000, 0.5, 0.0, 2);
+	Population Pop(100, 0.5, 0.0, 2);
 
 
 	/* Цикл */

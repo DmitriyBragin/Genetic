@@ -46,5 +46,16 @@ int* Selection::inbreedSelection()
 	parent[0] = firstParent;
 	parent[1] = secondParent;
 	return parent;
+}
+
+int* Selection::outbreedSelection()
+{
+	int firstParent = rand() % sizePopulation / 2;
+	int secondParent = rand() % sizePopulation / 2 + sizePopulation / 2;
+	while (secondParent == firstParent)
+		secondParent = rand() % sizePopulation / 2 + sizePopulation / 2;
+	parent[0] = firstParent;
+	parent[1] = secondParent;
+	return parent;
 
 }
