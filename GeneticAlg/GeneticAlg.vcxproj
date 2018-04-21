@@ -120,6 +120,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="population.cpp" />
     <ClCompile Include="roulette.cpp" />
+    <ClCompile Include="selection.cpp" />
     <ClCompile Include="Tournament.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +128,7 @@
     <ClInclude Include="Element.h" />
     <ClInclude Include="Population.h" />
     <ClInclude Include="Roulette.h" />
+    <ClInclude Include="Selection.h" />
     <ClInclude Include="Tournament.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

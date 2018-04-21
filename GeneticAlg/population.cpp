@@ -3,6 +3,7 @@
 #include "Element.h"
 #include "Crossover.h"
 #include "Tournament.h"
+#include "Selection.h"
 #include <iostream>
 
 #define NAN 100.0
@@ -32,28 +33,21 @@ void Population::allocations()
 int* Population::selection()
 {
 	int *parent = new int[spaceSize];
-	
+	Selection S(*this);
+
 	/* Селекция на основе рулетки с защитой от клонирования */
-	Roulette R(*this);
-	parent[0] = R.spinRoulette();
-	parent[1] = R.spinRoulette();
-	while ((parent[0] == parent[1]))
-	{
-		parent[1] = R.spinRoulette();
-	}
-
+	//parent = S.rouletteSelection(); // Работает и на 40
+	/* Турнирная селекция с защитой от клонирования */
+	//parent = S.tournamentSelection(); // Со 100 сошелся
 	/* Случайная селекция */
-	parent[0] = rand() % sizePopulation;
-	parent[1] = rand() % sizePopulation;
-	while ((parent[0] == parent[1]))
-	{
-		parent[1] = rand() % sizePopulation;
-	}
+	//parent = S.panmixedSelection(); // Со 100 сошелся
+	/* Инбридинг */
+	parent = S.inbreedSelection(); // Не работает на 100, сошелся на 1000
+	/* Аутбридинг */
+	//parent = S.outbreedSelection();
 
-	/* Турнирная селекция */
-	//Tournament T(*this);
-	//parent = T.determineWinner();
-	//printPopulation();
+
+
 	return parent;
 }
 
