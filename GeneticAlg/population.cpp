@@ -4,6 +4,7 @@
 #include "Crossover.h"
 #include "Tournament.h"
 #include "Selection.h"
+#include "Elimination.h"
 #include <iostream>
 
 #define NAN 100.0
@@ -125,6 +126,36 @@ void Population::sortPopulation()
 	}
 }
 
+void Population::sortParents()
+{
+	for (int i = 0; i < sizePopulation - 1; i++)
+	{
+		for (int j = 0; j < sizePopulation - i - 1; j++)
+		{
+			if (MainPopulation[j].fitnessFunction() > MainPopulation[j + 1].fitnessFunction())
+			{
+				MainPopulation[j].swapElements(MainPopulation[j + 1]);
+			}
+		}
+	}
+}
+
+void Population::sortChilds()
+{
+	for (int i = sizePopulation; i < sizeExpandedPopulation - 1; i++)
+	{
+		for (int j = sizePopulation; j < sizeExpandedPopulation - i - 1; j++)
+		{
+			if (MainPopulation[j].fitnessFunction() > MainPopulation[j + 1].fitnessFunction())
+			{
+				MainPopulation[j].swapElements(MainPopulation[j + 1]);
+			}
+		}
+	}
+}
+
+
+
 Element Population::getElement(int index)
 {
 	return MainPopulation[index];
@@ -160,15 +191,10 @@ int Population::mutationPopulation()
 
 void Population::eliminationPopulation()
 {
-	for (int i = sizePopulation; i < sizeExpandedPopulation; i++)
-	{
-		double *coords = new double[spaceSize];
-		for (int j = 0; j < spaceSize; j++)
-		{
-			coords[j] = NAN;
-		}
-		MainPopulation[i].setData(coords);
-	}
+	Elimination E(*this);
+	//E.eliteElimination(); // Элитная элиминация
+	E.truncateElimination();
+	//E.exclusionElimination();
 }
 
 void Population::shufflePopulation()
@@ -194,8 +220,6 @@ void Population::life()
 		newRes = MainPopulation[0].checkSubgrad();
 		crossoverPopulation();
 		mutationPopulation();
-		//printPopulation();
-		sortPopulation();
 		eliminationPopulation();
 		lifeTime++;
 	} while (newRes > 0.0001);

@@ -14,6 +14,7 @@ public:
 
 	/* Простановка значений */
 	void setData(double *num);
+	void deleteElement();
 	void setRoulettePercent(double num);
 	void setSize(int num);
 	void setTournamentStatus(bool flag);
@@ -34,7 +35,7 @@ public:
 	Element operator+ (Element b);
 	Element operator- (Element b);
 	Element operator* (double num);
-
+	bool operator==(Element b);
 
 };
 

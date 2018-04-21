@@ -30,6 +30,8 @@ public:
 	void shufflePopulation();
 	void printExpandedPopulation();
 	void printOptimum();
+	void sortParents();
+	void sortChilds();
 
 	/* Получение приватных полей класса */
 	Element getElement(int index);

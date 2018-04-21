@@ -88,6 +88,20 @@ Element Element::operator*(double num)
 	return result;
 }
 
+bool Element::operator==(Element b)
+{
+	double *bData = new double[b.getSize()];
+	bData = b.getData();
+	if ((abs(Data[0] - bData[0]) < 1e-10) && ((abs(Data[1] - bData[1]) < 1e-10)))
+		return true;
+	return false;
+}
+
+void Element::deleteElement()
+{
+	Data[0] = NAN;
+	Data[1] = NAN;
+}
 void Element::printElement()
 {
 	std::cout << "(";

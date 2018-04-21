@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClCompile Include="crossover.cpp" />
     <ClCompile Include="element.cpp" />
+    <ClCompile Include="elimination.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="population.cpp" />
     <ClCompile Include="roulette.cpp" />
@@ -126,6 +127,7 @@
   <ItemGroup>
     <ClInclude Include="Crossover.h" />
     <ClInclude Include="Element.h" />
+    <ClInclude Include="Elimination.h" />
     <ClInclude Include="Population.h" />
     <ClInclude Include="Roulette.h" />
     <ClInclude Include="Selection.h" />
