@@ -96,7 +96,7 @@ void Element::printElement()
 		std::cout << Data[j] << "; ";
 	}
 	std::cout << "); Percent: " << roulettePercent * 100.0 << " Fitness value: " << fitnessFunction() << std::endl;
-	std::cout << "Presence in tournament:"<< inTournament << std::endl;
+	//std::cout << "Presence in tournament:"<< inTournament << std::endl;
 
 
 }

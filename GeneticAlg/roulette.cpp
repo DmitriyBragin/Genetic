@@ -60,5 +60,6 @@ double Roulette::spinRoulette()
 
 	index = greatArray[index];
 	delete greatArray;
+	prepareRoulette();
 	return index;
 }

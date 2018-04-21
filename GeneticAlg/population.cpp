@@ -34,25 +34,25 @@ int* Population::selection()
 	int *parent = new int[spaceSize];
 	
 	/* Селекция на основе рулетки с защитой от клонирования */
-	//Roulette R(*this);
-	//parent[0] = R.spinRoulette();
-	//parent[1] = R.spinRoulette();
-	//while ((parent[0] == parent[1]))
-//	{
-	//	parent[1] = R.spinRoulette();
-//	}
+	Roulette R(*this);
+	parent[0] = R.spinRoulette();
+	parent[1] = R.spinRoulette();
+	while ((parent[0] == parent[1]))
+	{
+		parent[1] = R.spinRoulette();
+	}
 
 	/* Случайная селекция */
-	//parent[0] = rand() % sizePopulation;
-	//parent[1] = rand() % sizePopulation;
-	//while ((parent[0] == parent[1]))
-//	{
-//		parent[1] = rand() % sizePopulation;
-//	}
+	parent[0] = rand() % sizePopulation;
+	parent[1] = rand() % sizePopulation;
+	while ((parent[0] == parent[1]))
+	{
+		parent[1] = rand() % sizePopulation;
+	}
 
 	/* Турнирная селекция */
-	Tournament T(*this);
-	parent = T.determineWinner();
+	//Tournament T(*this);
+	//parent = T.determineWinner();
 	//printPopulation();
 	return parent;
 }
@@ -204,9 +204,9 @@ void Population::life()
 		newRes = MainPopulation[0].checkSubgrad();
 		crossoverPopulation();
 		mutationPopulation();
+		//printPopulation();
 		sortPopulation();
 		eliminationPopulation();
-		printPopulation();
 		lifeTime++;
 	} while (newRes > 0.0001);
 	printOptimum();

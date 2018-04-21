@@ -15,7 +15,7 @@ public:
 	/* Дискретная рекомбинация (GAfinal, 18 страница */
 	Element linearRecombination();
 	Element intermediateRecombination();
-
+	Element directionRecombination();
 
 	Element recombination();
 };
