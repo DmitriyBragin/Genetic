@@ -13,6 +13,7 @@ void Roulette::prepareRoulette()
 		Element elem_i = Pop.getElement(i);
 		norm += elem_i.fitnessFunction() - elem_0.fitnessFunction();
 	}
+	//Pop.printPopulation();
 	double fN_star = elem_sz.fitnessFunction() - elem_0.fitnessFunction();
 	double N = sizePopulation;
 	for (int i = 0; i < sizePopulation; i++)
@@ -26,23 +27,29 @@ void Roulette::prepareRoulette()
 		double newCheck = elem_i.getRoulettePercent();
 		check += newCheck;
 	}
+	//Pop.printPopulation();
 }
 
-
-
-double Roulette::spinRoulette()
+int Roulette::getArraySize()
 {
-	sizePopulation = Pop.getSizePopulation();
-	prepareRoulette();
-	int *greatArray;
-	int size = 0, index = 0, curpos = 0;
-
+	int size = 0;
 	for (int i = 0; i < sizePopulation; i++)
 	{
 		Element elem = Pop.getElement(i);
 		double percent = elem.getRoulettePercent();
 		size += floor(percent * 1000.0);
 	}
+	return size;
+}
+
+double Roulette::spinRoulette()
+{
+	sizePopulation = Pop.getSizePopulation();
+	prepareRoulette();
+	//Pop.printPopulation();
+	int *greatArray;
+	int size = 0, index = 0, curpos = 0;
+	size = getArraySize();
 	greatArray = new int[size];
 	for (int i = 0; i < sizePopulation; i++)
 	{

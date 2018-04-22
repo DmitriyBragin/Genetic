@@ -5,17 +5,16 @@
 #include "Element.h"
 class Population
 {
-protected:
-	Element * MainPopulation;
 private:
 	int sizePopulation;
 	double sizeExpandedPopulation;
 	double mutationCoeff;
-	double probabilityCrossinogver;
 	int spaceSize;
 	int lifeTime;
+	bool tournamentStatus;
+	Element * MainPopulation;
 public:
-	Population(int sz, double mc, double pc, int ss) : sizePopulation(sz), mutationCoeff(mc), probabilityCrossinogver(pc),
+	Population(int sz, double mc, int ss) : sizePopulation(sz), mutationCoeff(mc),
 	spaceSize(ss) {}
 	void allocations();
 	void printPopulation();
@@ -38,8 +37,10 @@ public:
 	int getSizePopulation() { return sizePopulation; }
 	int getSizeExpandedPopulation() { return sizeExpandedPopulation; }
 	int getspaceSize() { return spaceSize; }
+	bool getTournamentStatus() { return tournamentStatus; }
 	/* Заполнение приватных полей класса */
 	void pushElement(Element a, int index);
+	void setTournamentStatus(bool flag) { tournamentStatus = flag; }
 
 };
 #endif

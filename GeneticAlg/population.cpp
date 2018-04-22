@@ -40,11 +40,13 @@ int* Population::selection()
 	/* Турнирная селекция с защитой от клонирования */
 	//parent = S.tournamentSelection(); // Со 100 сошелся
 	/* Случайная селекция */
-	//parent = S.panmixedSelection(); // Со 100 сошелся
+	parent = S.panmixedSelection(); // Со 100 сошелся
 	/* Инбридинг */
 	//parent = S.inbreedSelection(); // Не работает на 100, сошелся на 1000
 	/* Аутбридинг */
-	parent = S.outbreedSelection();
+	//parent = S.outbreedSelection();
+	//std::cout << "Parents: " << parent[0] + 1<< "++" << parent[1] + 1 << std::endl;
+	//printPopulation();
 	return parent;
 }
 
@@ -55,7 +57,8 @@ int count = 0;
 
 	int firstParent = 0, secondParent = 0;
 	double koeff = 0.5;
-
+	sortPopulation();
+	setTournamentStatus(true);
 	for (int i = sizePopulation; i < sizeExpandedPopulation; i++)
 	{
 		/* Выбор родителей */
@@ -66,6 +69,7 @@ int count = 0;
 		Crossover C(Mother, Father);
 		Element Child = C.recombination();
 		MainPopulation[i].setData(Child.getData());
+		setTournamentStatus(false);
 	}
 }
 
@@ -193,8 +197,8 @@ void Population::eliminationPopulation()
 {
 	Elimination E(*this);
 	//E.eliteElimination(); // Элитная элиминация
-	E.truncateElimination();
-	//E.exclusionElimination();
+	//E.truncateElimination();
+	E.exclusionElimination();
 }
 
 void Population::shufflePopulation()

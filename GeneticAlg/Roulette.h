@@ -12,5 +12,6 @@ public:
 	Roulette(Population p) : Pop(p) {}
 	double spinRoulette();
 	void prepareRoulette();
+	int getArraySize();
 };
 #endif
