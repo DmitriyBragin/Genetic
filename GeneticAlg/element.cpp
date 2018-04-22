@@ -92,7 +92,7 @@ bool Element::operator==(Element b)
 {
 	double *bData = new double[b.getSize()];
 	bData = b.getData();
-	if ((abs(Data[0] - bData[0]) < 1e-10) && ((abs(Data[1] - bData[1]) < 1e-10)))
+	if ((abs(Data[0] - bData[0]) < 1e-3) && ((abs(Data[1] - bData[1]) < 1e-3)))
 		return true;
 	return false;
 }
@@ -148,6 +148,6 @@ double Element::checkSubgrad()
 	resY = 2.0 * Data[1] + 1.0;
 
 	res = sqrt(resX * resX + resY * resY);
-	std::cout << "SUBGRADIENT" << res << std::endl;
+	//std::cout << "SUBGRADIENT" << res << std::endl;
 	return res;
 }

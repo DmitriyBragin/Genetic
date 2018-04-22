@@ -50,6 +50,7 @@ int* Selection::inbreedSelection()
 
 int* Selection::outbreedSelection()
 {
+	Pop.sortPopulation();
 	int firstParent = rand() % sizePopulation / 2;
 	int secondParent = rand() % sizePopulation / 2 + sizePopulation / 2;
 	while (secondParent == firstParent)

@@ -50,6 +50,11 @@ double Roulette::spinRoulette()
 	int *greatArray;
 	int size = 0, index = 0, curpos = 0;
 	size = getArraySize();
+	if (size < 100)
+	{
+		Pop.printPopulation();
+		return 0.0;
+	}
 	greatArray = new int[size];
 	for (int i = 0; i < sizePopulation; i++)
 	{

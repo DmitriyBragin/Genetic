@@ -26,23 +26,33 @@ void Population::allocations()
 			tempArray[j] = NAN; /* THIS! */
 		}
 		MainPopulation[i].setData(tempArray); /* THIS ALSO */
-
 	}
-
+}
+void Population::deleteChildren()
+{
+	double *temp = new double[spaceSize];
+	temp[0] = NAN;
+	temp[1] = NAN;
+	for (int i = sizePopulation; i < sizeExpandedPopulation; i++)
+	{
+		MainPopulation[i].setData(temp);
+	}
 }
 
 int* Population::selection()
 {
 	int *parent = new int[spaceSize];
+	//printPopulation();
 	Selection S(*this);
+	//printPopulation();
 	/* Селекция на основе рулетки с защитой от клонирования */
 	//parent = S.rouletteSelection(); // Работает и на 40
 	/* Турнирная селекция с защитой от клонирования */
 	//parent = S.tournamentSelection(); // Со 100 сошелся
 	/* Случайная селекция */
-	parent = S.panmixedSelection(); // Со 100 сошелся
+	//parent = S.panmixedSelection(); // Со 100 сошелся
 	/* Инбридинг */
-	//parent = S.inbreedSelection(); // Не работает на 100, сошелся на 1000
+	parent = S.inbreedSelection(); // Не работает на 100, сошелся на 1000
 	/* Аутбридинг */
 	//parent = S.outbreedSelection();
 	//std::cout << "Parents: " << parent[0] + 1<< "++" << parent[1] + 1 << std::endl;
@@ -52,13 +62,10 @@ int* Population::selection()
 
 void Population::crossoverPopulation()
 {
-
-int count = 0;
-
-	int firstParent = 0, secondParent = 0;
-	double koeff = 0.5;
 	sortPopulation();
+	//printPopulation();
 	setTournamentStatus(true);
+	//printPopulation();
 	for (int i = sizePopulation; i < sizeExpandedPopulation; i++)
 	{
 		/* Выбор родителей */
@@ -146,15 +153,17 @@ void Population::sortParents()
 
 void Population::sortChilds()
 {
+	int k = 0;
 	for (int i = sizePopulation; i < sizeExpandedPopulation - 1; i++)
 	{
-		for (int j = sizePopulation; j < sizeExpandedPopulation - i - 1; j++)
+		for (int j = sizePopulation; j < sizeExpandedPopulation - k - 1; j++)
 		{
 			if (MainPopulation[j].fitnessFunction() > MainPopulation[j + 1].fitnessFunction())
 			{
 				MainPopulation[j].swapElements(MainPopulation[j + 1]);
 			}
 		}
+		k++;
 	}
 }
 
@@ -199,6 +208,7 @@ void Population::eliminationPopulation()
 	//E.eliteElimination(); // Элитная элиминация
 	//E.truncateElimination();
 	E.exclusionElimination();
+	//printPopulation();
 }
 
 void Population::shufflePopulation()
@@ -219,6 +229,53 @@ void Population::life()
 	lifeTime = 0;
 	/* Цикл */
 	double newRes = 0;
+	do
+	{
+		newRes = MainPopulation[0].checkSubgrad();
+		//printPopulation();
+		crossoverPopulation();
+		//printPopulation();
+		mutationPopulation();
+		eliminationPopulation();
+		lifeTime++;
+	} while (newRes > 0.1);
+	printOptimum();
+	allocations();
+	generatePopulation();
+	sortPopulation();
+	lifeTime = 0;
+	/* Цикл */
+	newRes = 0;
+	do
+	{
+		newRes = MainPopulation[0].checkSubgrad();
+		crossoverPopulation();
+		mutationPopulation();
+		eliminationPopulation();
+		lifeTime++;
+	} while (newRes > 0.01);
+	printOptimum();
+	allocations();
+	generatePopulation();
+	sortPopulation();
+	lifeTime = 0;
+	/* Цикл */
+	newRes = 0;
+	do
+	{
+		newRes = MainPopulation[0].checkSubgrad();
+		crossoverPopulation();
+		mutationPopulation();
+		eliminationPopulation();
+		lifeTime++;
+	} while (newRes > 0.001);
+	printOptimum();
+	allocations();
+	generatePopulation();
+	sortPopulation();
+	lifeTime = 0;
+	/* Цикл */
+	newRes = 0;
 	do
 	{
 		newRes = MainPopulation[0].checkSubgrad();

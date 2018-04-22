@@ -31,6 +31,7 @@ public:
 	void printOptimum();
 	void sortParents();
 	void sortChilds();
+	void deleteChildren();
 
 	/* Получение приватных полей класса */
 	Element getElement(int index);

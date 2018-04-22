@@ -31,6 +31,7 @@ void Elimination::exclusionElimination()
 {
 	Pop.sortParents();
 	Pop.sortChilds();
+	//Pop.printPopulation();
 	bool flag = false;
 	int iterator = 1;
 	for (int i = sizePopulation; i < sizeExpandedPopulation; i++)
@@ -41,14 +42,19 @@ void Elimination::exclusionElimination()
 			if (Pop.getElement(i) == Pop.getElement(j))
 			{
 				Pop.getElement(i).deleteElement();
+				Pop.pushElement(Pop.getElement(i), i);
 				flag = false;
 				break;
 			}
 		}
 		if (flag == true)
 		{
+		//	Pop.getElement(i).printElement();
 			Pop.pushElement(Pop.getElement(i), sizePopulation - iterator);
 			iterator++;
 		}
 	}
+	Pop.sortParents();
+	Pop.deleteChildren();
+	//Pop.printPopulation();
 }
